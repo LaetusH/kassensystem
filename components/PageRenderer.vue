@@ -12,6 +12,7 @@ import HomePage from '~/components/pages/Home.vue'
 import AboutPage from '~/components/pages/About.vue'
 import AdminPage from '~/components/pages/Admin.vue'
 import LoginPage from '~/components/pages/Login.vue'
+import UsersPage from '~/components/pages/Users.vue'
 
 const { currentPage } = usePage()
 const { user, fetchSession } = useAuth()
@@ -26,6 +27,7 @@ const pages: Record<string, Page> = {
   About: { component: AboutPage, allowedRoles: ['user', 'admin'] },
   Admin: { component: AdminPage, allowedRoles: ['admin'] },
   Login: { component: LoginPage, allowedRoles: ['guest'] },
+  Users: { component: UsersPage, allowedRoles: ['admin'] },
 }
 
 const loaded = ref(false)

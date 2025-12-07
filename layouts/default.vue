@@ -17,7 +17,7 @@ const menuItems = [
   { name: 'Home', label: 'Home', icon: '/icon-home.svg', roles: ['user', 'admin'] },
   { name: 'About', label: 'About', icon: '/icon-settings.svg', roles: ['user', 'admin'] },
   { name: 'Admin', label: 'Admin', icon: '/icon-settings.svg', roles: ['admin'] },
-  { name: 'Login', label: 'Login', icon: '/icon-settings.svg', roles: ['guest'] },
+  { name: 'Users', label: 'Users', icon: '/icon-settings.svg', roles: ['admin'] },
 ]
 
 const filteredMenuItems = computed(() => {
