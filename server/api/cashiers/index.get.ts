@@ -12,5 +12,5 @@ export default defineEventHandler(async (event) => {
     ORDER BY name ASC
   `)
 
-  return { ok: true, items: normalizeBigInt(rows) }
+  return { ok: true, cashiers: normalizeBigInt(rows) }
 })

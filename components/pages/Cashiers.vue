@@ -57,7 +57,7 @@ const newCashier = ref({
 async function loadCashiers() {
   const res = await $fetch('/api/cashiers', { method: 'GET' })
   if (res.ok) {
-    cashiers.value = 'items' in res ? res.items as any[] : []
+    cashiers.value = 'cashiers' in res ? res.cashiers as any[] : []
   }
 }
 
