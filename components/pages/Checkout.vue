@@ -41,11 +41,21 @@
           <li
             v-for="line in orderItems"
             :key="line.id"
-            class="grid grid-cols-5 items-center py-2 border-b border-gray-700"
+            class="grid grid-cols-6 items-center py-2 border-b border-gray-700"
           >
             <span class="text-left col-span-1">{{ line.quantity }}</span>
             <span class="text-left col-span-2">{{ line.name }}</span>
             <span class="text-right font-semibold col-span-2">{{ (line.price * line.quantity).toFixed(2) }} €</span>
+            <button
+              class="col-span-1 flex justify-end cursor-pointer"
+              @click="removeLine(line.id)"
+            >
+              <img
+                src="/icon-cancel.svg"
+                alt="Remove"
+                class="w-4 h-4 hover:opacity-70 transition"
+              />
+            </button>
           </li>
         </ul>
 
@@ -95,10 +105,10 @@
 <script setup lang="ts">
 const items = ref<any[]>([])
 const cashiers = ref<any[]>([])
-const selectedCashier = ref('')
-const orderItems = ref<any[]>([])
 
 const showConfirm = ref(false)
+
+const { selectedCashier, orderItems } = useCheckout()
 
 onMounted(async () => {
   const res1 = await $fetch('/api/items', { method: 'GET' })
@@ -126,6 +136,10 @@ const total = computed(() =>
     0
   )
 )
+
+function removeLine(id: number) {
+  orderItems.value = orderItems.value.filter(line => line.id !== id)
+}
 
 async function finishOrder() {
   showConfirm.value = false
