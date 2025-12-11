@@ -44,8 +44,14 @@
             class="grid grid-cols-6 items-center py-2 border-b border-gray-700"
           >
             <span class="text-left col-span-1">{{ line.quantity }}</span>
-            <span class="text-left col-span-2">{{ line.name }}</span>
-            <span class="text-right font-semibold col-span-2">{{ (line.price * line.quantity).toFixed(2) }} €</span>
+            <span class="text-left col-span-2">{{ line.name }}
+              <span v-if="line.deposit > 0" class="text-xs text-gray-500">
+                (+ {{ line.deposit }} € deposit)
+              </span>
+            </span>
+            <span class="text-right font-semibold col-span-2">
+              {{ ((line.price * line.quantity) + (line.deposit * line.quantity)).toFixed(2) }} €
+            </span>
             <button
               class="col-span-1 flex justify-end cursor-pointer"
               @click="removeLine(line.id)"
@@ -127,12 +133,16 @@ onMounted(async () => {
 function addToOrder(item: any) {
   const existing = orderItems.value.find((it) => it.id === item.id)
   if (existing) existing.quantity += 1
-  else orderItems.value.push({ ...item, quantity: 1 })
+  else orderItems.value.push({
+    ...item,
+    quantity: 1,
+    deposit: item.deposit ?? 0
+  })
 }
 
 const total = computed(() =>
   orderItems.value.reduce(
-    (sum, it) => sum + it.price * it.quantity,
+    (sum, it) => sum + (it.price * it.quantity) + (it.deposit * it.quantity),
     0
   )
 )

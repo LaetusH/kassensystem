@@ -10,6 +10,10 @@
         <label class="block mb-1 text-md">Price</label>
         <input v-model="newItem.price" type="number" step="0.01" class="w-full p-2 rounded-md bg-gray-100 outline outline-gray-300" />
       </div>
+      <div>
+        <label class="block mb-1 text-md">Deposit</label>
+        <input v-model="newItem.deposit" type="number" step="0.01" class="w-full p-2 rounded-md bg-gray-100 outline outline-gray-300" />
+      </div>
 
       <button 
         @click="addItem"
@@ -26,6 +30,7 @@
           <tr class="border-b border-gray-600">
             <th class="text-left pb-2">Name</th>
             <th class="text-left pb-2">Price</th>
+            <th class="text-left pb-2">Deposit</th>
             <th class="text-left pb-2">Active</th>
             <th class="text-left pb-2"></th>
             <th class="text-left pb-2"></th>
@@ -40,6 +45,7 @@
           >
             <td class="py-2">{{ item.name }}</td>
             <td class="py-2">{{ item.price }} €</td>
+            <td class="py-2">{{ item.deposit }} €</td>
             <td class="p-2">
               <span :class="item.is_active ? 'text-green-600' : 'text-red-600'">
                 {{ item.is_active ? 'Yes' : 'No' }}
@@ -74,7 +80,8 @@ import { ref, onMounted } from 'vue'
 const items = ref<any[]>([])
 const newItem = ref({
   name: '',
-  price: ''
+  price: '',
+  deposit: ''
 })
 
 async function loadItems() {
@@ -92,7 +99,7 @@ async function addItem() {
     body: newItem.value
   })
 
-  newItem.value = { name: '', price: '' }
+  newItem.value = { name: '', price: '', deposit: '' }
   await loadItems()
 }
 

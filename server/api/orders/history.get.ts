@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
       i.id AS item_id,
       i.name AS item_name,
       i.price AS item_price,
+      i.deposit AS item_deposit,
       oi.quantity
     FROM orders o
     JOIN cashiers c ON o.cashier_id = c.id
@@ -42,6 +43,7 @@ export default defineEventHandler(async (event) => {
       id: row.item_id,
       name: row.item_name,
       price: row.item_price,
+      deposit: row.item_deposit,
       quantity: row.quantity
     })
   }

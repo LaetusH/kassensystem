@@ -19,7 +19,7 @@
               Order #{{ order.id }} - Total:
             {{
               order.items
-                .reduce((s : any, i : any) => s + i.price * i.quantity, 0)
+                .reduce((s : any, i : any) => s + (i.price * i.quantity) + (i.deposit * i.quantity), 0)
                 .toFixed(2)
             }}
             €
@@ -42,9 +42,16 @@
               class="grid grid-cols-6 py-2 border-b"
             >
               <span class="col-span-1">{{ item.quantity }}</span>
-              <span class="col-span-3">{{ item.name }}</span>
+              <span class="col-span-3">{{ item.name }}
+                <span
+                  v-if="item.deposit > 0"
+                  class="text-xs text-gray-500"
+                >
+                  (+{{ item.deposit }} € deposit)
+                </span>
+              </span>
               <span class="col-span-2 text-right">
-                {{ (item.price * item.quantity).toFixed(2) }} €
+                {{ ((item.price * item.quantity) + (item.deposit * item.quantity)).toFixed(2) }} €
               </span>
             </li>
           </ul>
@@ -53,7 +60,7 @@
             Total:
             {{
               order.items
-                .reduce((s : any, i : any) => s + i.price * i.quantity, 0)
+                .reduce((s : any, i : any) => s + (i.price * i.quantity) + (i.deposit * i.quantity), 0)
                 .toFixed(2)
             }}
             €
