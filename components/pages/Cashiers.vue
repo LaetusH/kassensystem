@@ -33,8 +33,8 @@
             :key="cashier.id"
             class="border-b border-gray-700"
           >
-            <td class="py-2">{{ cashier.name }}</td>
-            <td class="p-2">
+            <td class="py-2 text-left">{{ cashier.name }}</td>
+            <td class="py-2 text-left">
               <span :class="cashier.is_active ? 'text-green-600' : 'text-red-600'">
                 {{ cashier.is_active ? 'Yes' : 'No' }}
               </span>
