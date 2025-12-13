@@ -1,22 +1,11 @@
 <template>
-  <div class="p-6">
-    <div class="flex flex-row justify-between">
-      <h1 class="text-2xl font-bold mb-4">Checkout</h1>
-      <div class="mb-8">
-        <select
-          v-model="selectedCashier"
-          class="bg-white p-2 rounded-md w-64 outline outline-gray-200 shadow-lg"
-        >
-          <option disabled value="">Choose cashier</option>
-          <option v-for="c in cashiers" :key="c.id" :value="c.id">
-            {{ c.name }}
-          </option>
-        </select>
-      </div>
-    </div>
+  <Page headline1="Checkout">
+    <template #header>
+      <MenuSelectCashier />
+    </template>
 
-    <div class="grid grid-cols-3 gap-6">
-      <div class="col-span-2 bg-white p-4 rounded-xl shadow-lg">
+    <template #cards>
+      <div class="col-span-8 bg-white p-4 rounded-xl shadow-lg">
         <h2 class="text-xl font-semibold mb-4">Items</h2>
         <div class="grid grid-cols-3 gap-4">
           <div
@@ -31,7 +20,7 @@
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-xl shadow-lg">
+      <div class="col-span-4 bg-white p-4 rounded-xl shadow-lg">
         <h2 class="text-xl font-semibold mb-4">Current Order</h2>
         <div v-if="orderItems.length === 0" class="text-gray-400">
           No items added yet.
@@ -88,56 +77,32 @@
           Save Order
         </button>
       </div>
-
-    </div>
-  </div>
-  <div
-    v-if="showConfirm"
-    class="fixed inset-0 bg-gray-200 flex items-center justify-center z-50"
+    </template>
+  </Page>
+  <FormConfirmation 
+    v-if="showConfirm" 
+    headline="Confirm Order"
+    @confirm="finishOrder"
+    @cancel="showConfirm = false"
   >
-    <div class="bg-white p-6 rounded-lg w-96 shadow-xl">
-      <h2 class="text-xl font-bold mb-4 text-center">Confirm Order</h2>
-      <p class="text-center mb-6">
-        Do you really want to create this order?<br />
-        <span class="font-bold">Total: {{ total.toFixed(2) }} €</span>
-      </p>
-      <div class="flex justify-between">
-        <button
-          @click="finishOrder"
-          class="px-4 py-2 text-white bg-cyan-600 hover:bg-cyan-700 rounded-md cursor-pointer"
-        >
-          Confirm
-        </button>
-        <button
-          @click="showConfirm = false"
-          class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md cursor-pointer"
-        >
-          Cancel
-        </button>
-      </div>
-    </div>
-  </div>
+    <template #message>
+      Do you really want to create this order?<br />
+      <span class="font-bold">Total: {{ total.toFixed(2) }} €</span>
+    </template>
+  </FormConfirmation>
 </template>
 
 <script setup lang="ts">
 const items = ref<any[]>([])
-const cashiers = ref<any[]>([])
-
 const showConfirm = ref(false)
 
 const { selectedCashier, orderItems, isFachschaft } = useCheckout()
 
 onMounted(async () => {
-  const res1 = await $fetch('/api/items', { method: 'GET' })
-  if (res1.ok) { 
-    const allItems = 'items' in res1 ? res1.items as any[] : []
+  const res = await $fetch('/api/items', { method: 'GET' })
+  if (res.ok) { 
+    const allItems = 'items' in res ? res.items as any[] : []
     items.value = allItems.filter(i => i.is_active === 1 || i.is_active === true)
-  }
-
-  const res2 = await $fetch('/api/cashiers', { method: 'GET' })
-  if (res2.ok) {
-    const allCashiers = 'cashiers' in res2 ? res2.cashiers as any[] : []
-    cashiers.value = allCashiers.filter(i => i.is_active === 1 || i.is_active === true)
   }
 })
 

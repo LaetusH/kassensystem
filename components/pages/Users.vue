@@ -1,67 +1,67 @@
 <template>
-  <div class="p-6">
-    <h1 class="text-2xl font-bold mb-4">User Management</h1>
-    <div class="mb-8 p-4 bg-white shadow-lg rounded-xl">
-      <h2 class="text-xl font-semibold mb-2">Create New User</h2>
-      <div class="flex flex-col gap-2 max-w-sm">
-        <input
-          v-model="newUsername"
-          placeholder="New Username"
-          class="outline outline-gray-300 bg-gray-100 p-2 rounded-md"
-          autocomplete="new-username"
-        />
-        <input
-          v-model="newPassword"
-          placeholder="New Password"
-          type="password"
-          class="outline outline-gray-300 bg-gray-100 p-2 rounded-md"
-          autocomplete="new-password"
-        />
-        <select v-model="role" class="outline outline-gray-300 bg-gray-100 p-2 rounded-md">
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
-        <button
-          @click="registerUser"
-          class="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-2 rounded-md cursor-pointer"
-        >
-          Create User
-        </button>
+  <Page headline1="User Management">
+    <template #cards>
+      <div class="col-span-12 p-4 bg-white shadow-lg rounded-xl">
+        <h2 class="text-xl font-semibold mb-2">Create New User</h2>
+        <div class="flex flex-col gap-2 max-w-sm">
+          <input
+            v-model="newUsername"
+            placeholder="New Username"
+            class="outline outline-gray-300 bg-gray-100 p-2 rounded-md"
+            autocomplete="new-username"
+          />
+          <input
+            v-model="newPassword"
+            placeholder="New Password"
+            type="password"
+            class="outline outline-gray-300 bg-gray-100 p-2 rounded-md"
+            autocomplete="new-password"
+          />
+          <select v-model="role" class="outline outline-gray-300 bg-gray-100 p-2 rounded-md">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+          <button
+            @click="registerUser"
+            class="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-2 rounded-md cursor-pointer"
+          >
+            Create User
+          </button>
 
-        <p v-if="error" class="text-red-500">{{ error }}</p>
-        <p v-if="message" class="text-green-600">{{ message }}</p>
+          <p v-if="error" class="text-red-500">{{ error }}</p>
+          <p v-if="message" class="text-green-600">{{ message }}</p>
+        </div>
       </div>
-    </div>
 
-    <div class="p-4 bg-white shadow-lg rounded-xl">
-      <h2 class="text-xl font-semibold mb-4">All Users</h2>
-      <table class="w-full border-collapse">
-        <thead>
-          <tr class="border-b font-semibold">
-            <th class="text-left p-2">ID</th>
-            <th class="text-left p-2">Username</th>
-            <th class="text-left p-2">Role</th>
-            <th class="text-left p-2">Active</th>
-            <th class="text-left p-2">Created</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="u in users" :key="u.id" class="border-b">
-            <td class="p-2">{{ u.id }}</td>
-            <td class="p-2">{{ u.username }}</td>
-            <td class="p-2">{{ u.role }}</td>
-            <td class="p-2">
-              <span :class="u.is_active ? 'text-green-600' : 'text-red-600'">
-                {{ u.is_active ? 'Yes' : 'No' }}
-              </span>
-            </td>
-            <td class="p-2">{{ u.created_at }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
+      <div class="col-span-12 p-4 bg-white shadow-lg rounded-xl">
+        <h2 class="text-xl font-semibold mb-4">All Users</h2>
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="border-b font-semibold">
+              <th class="text-left p-2">ID</th>
+              <th class="text-left p-2">Username</th>
+              <th class="text-left p-2">Role</th>
+              <th class="text-left p-2">Active</th>
+              <th class="text-left p-2">Created</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="u in users" :key="u.id" class="border-b">
+              <td class="p-2">{{ u.id }}</td>
+              <td class="p-2">{{ u.username }}</td>
+              <td class="p-2">{{ u.role }}</td>
+              <td class="p-2">
+                <span :class="u.is_active ? 'text-green-600' : 'text-red-600'">
+                  {{ u.is_active ? 'Yes' : 'No' }}
+                </span>
+              </td>
+              <td class="p-2">{{ u.created_at }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </template>
+  </Page>
 </template>
 
 <script setup lang="ts">
