@@ -9,7 +9,7 @@ services:
       - .env
     environment:
       - HOST=0.0.0.0
-      - PORT=3000
+      - PORT=3001
       - DB_HOST=${DB_HOST:-db}
       - DB_USER=${DB_USER:-fsi}
       - DB_PASSWORD=${DB_PASSWORD:-fsi_password}
