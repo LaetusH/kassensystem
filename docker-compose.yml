@@ -22,7 +22,7 @@ services:
       - ADMIN_USERNAME=${ADMIN_USERNAME:-}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
     ports:
-      - "3000:3000"
+      - "3001:3001"
     command: sh -c "npm ci && node scripts/seed-admin.mjs && npm run build && node .output/server/index.mjs"
     depends_on:
       db:
