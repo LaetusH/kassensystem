@@ -21,6 +21,7 @@ services:
       - SESSION_MAX_AGE_MINUTES=${SESSION_MAX_AGE_MINUTES:-1440}
       - ADMIN_USERNAME=${ADMIN_USERNAME:-}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
+      - APP_BASE_URL=${APP_BASE_URL:-/}
     ports:
       - "3001:3001"
     command: sh -c "npm ci && node scripts/seed-admin.mjs && npm run build && node .output/server/index.mjs"

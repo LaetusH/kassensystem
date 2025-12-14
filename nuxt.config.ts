@@ -5,6 +5,10 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: ['@vite-pwa/nuxt'],
   css: ['~/assets/css/main.css'],
+  app: {
+    // Allow hosting under a subpath like /kasse
+    baseURL: process.env.APP_BASE_URL || '/'
+  },
   vite: {
     plugins: [tailwindcss()]
   },
