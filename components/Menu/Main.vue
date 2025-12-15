@@ -16,7 +16,7 @@
         v-for="item in items"
         :key="item.name"
         @click="handleClick(item.name)"
-        class="cursor-pointer flex flex-col items-center p-2 md:p-3 rounded-lg"
+        class="cursor-pointer flex flex-col items-center p-1 md:p-3 rounded-lg"
       >
         <div
           :class="[

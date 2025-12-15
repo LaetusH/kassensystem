@@ -20,10 +20,11 @@ const menuItems = [
   { name: 'Checkout', label: 'Checkout', icon: 'ph:shopping-cart-simple', roles: ['user', 'admin'] },
   { name: 'History', label: 'History', icon: 'ph:clock-counter-clockwise', roles: ['user', 'admin'] },
   { name: 'Fachschaft', label: 'Fachschaft', icon: 'fa7-solid:money-bill-1', roles: ['user', 'admin'] },
+  { name: 'Overview', label: 'Overview', icon: 'streamline-flex:subscription-cashflow', roles: ['admin'] },
   { name: 'Items', label: 'Items', icon: 'ph:package', roles: ['admin'] },
   { name: 'Cashiers', label: 'Cashiers', icon: 'ph:storefront', roles: ['admin'] },
   { name: 'Users', label: 'Users', icon: 'ph:users-three', roles: ['admin'] },
-  { name: 'Logout', label: 'Logout', icon: 'line-md:log-out', roles: ['user', 'admin'] },
+  { name: 'Logout', label: 'Logout', icon: 'fe:logout', roles: ['user', 'admin'] },
 ]
 
 const filteredMenuItems = computed(() => {
