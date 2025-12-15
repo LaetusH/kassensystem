@@ -1,7 +1,7 @@
 <template>
   <Page headline1="Cashier Management" @open-menu="$emit('openMenu')">
     <template #cards>
-      <div class="col-span-12 p-4 bg-white shadow-lg rounded-xl flex gap-4 items-end">
+      <div class="col-span-12 p-4 bg-white shadow-lg rounded-xl flex flex-wrap gap-4 items-end">
         <div>
           <label class="block mb-1 text-md">Cashier Name</label>
           <input v-model="newCashier.name" class="w-full p-2 rounded-md bg-gray-100 outline outline-gray-300" />

@@ -54,9 +54,11 @@
     @confirm="markPaid"
     @cancel="showConfirm = false"
   >
-    <p class="text-center mb-6">
-      Did {{ members.find((m : any) => m.id === selectedMember).name }} really pay the 10€?<br />
-    </p>
+    <template #message>
+      <p class="text-center mb-6">
+        Did {{ members.find((m : any) => m.id === selectedMember).name }} really pay the 10€?<br />
+      </p>
+    </template>
   </FormConfirmation>
 </template>
 

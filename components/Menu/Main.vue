@@ -11,12 +11,12 @@
       'md:translate-x-0'
     ]"
   >
-    <ul class="flex flex-col gap-4 mt-2">
+    <ul class="flex flex-col md:gap-4 md:mt-2">
       <li
         v-for="item in items"
         :key="item.name"
         @click="handleClick(item.name)"
-        class="cursor-pointer flex flex-col items-center p-3 rounded-lg"
+        class="cursor-pointer flex flex-col items-center p-2 md:p-3 rounded-lg"
       >
         <div
           :class="[
