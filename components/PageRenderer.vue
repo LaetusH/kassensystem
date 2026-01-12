@@ -17,6 +17,7 @@ import CashiersPage from '~/components/pages/Cashiers.vue'
 import UsersPage from '~/components/pages/Users.vue'
 import LoginPage from '~/components/pages/Login.vue'
 import LogoutPage from '~/components/pages/Logout.vue'
+import SettingsPage from '~/components/pages/Settings.vue'
 
 const emit = defineEmits<{
   (e: 'openMenu'): void
@@ -39,7 +40,8 @@ const pages: Record<string, Page> = {
   Cashiers: { component: CashiersPage, allowedRoles: ['admin'] },
   Users: { component: UsersPage, allowedRoles: ['admin'] },
   Login: { component: LoginPage, allowedRoles: ['guest'] },
-  Logout: { component: LogoutPage, allowedRoles: ['user', 'admin'] },
+  Logout: { component: LogoutPage, allowedRoles: ['user'] },
+  Settings: { component: SettingsPage, allowedRoles: ['admin'] },
 }
 
 const loaded = ref(false)

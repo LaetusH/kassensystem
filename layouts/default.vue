@@ -24,7 +24,8 @@ const menuItems = [
   { name: 'Items', label: 'Items', icon: 'ph:package', roles: ['admin'] },
   { name: 'Cashiers', label: 'Cashiers', icon: 'ph:storefront', roles: ['admin'] },
   { name: 'Users', label: 'Users', icon: 'ph:users-three', roles: ['admin'] },
-  { name: 'Logout', label: 'Logout', icon: 'fe:logout', roles: ['user', 'admin'] },
+  { name: 'Logout', label: 'Logout', icon: 'fe:logout', roles: ['user'] },
+  { name: 'Settings', label: 'Settings', icon: 'material-symbols:settings-outline', roles: ['admin'] },
 ]
 
 const filteredMenuItems = computed(() => {
