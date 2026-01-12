@@ -11,7 +11,10 @@
       'md:translate-x-0'
     ]"
   >
-    <ul class="flex flex-col md:gap-4 md:mt-2">
+    <ul 
+      class="flex flex-col mt-2 mb-2 h-full"
+      :class="items.length > 6 ? 'justify-between' : 'justify-start gap-4'"
+    >
       <li
         v-for="item in items"
         :key="item.name"
