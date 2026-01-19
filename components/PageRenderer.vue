@@ -14,6 +14,7 @@ import FachschaftPage from '~/components/pages/Fachschaft.vue'
 import OverviewPage from '~/components/pages/Overview.vue'
 import ItemsPage from '~/components/pages/Items.vue'
 import CashiersPage from '~/components/pages/Cashiers.vue'
+import EventsPage from '~/components/pages/Events.vue'
 import UsersPage from '~/components/pages/Users.vue'
 import LoginPage from '~/components/pages/Login.vue'
 import LogoutPage from '~/components/pages/Logout.vue'
@@ -38,6 +39,7 @@ const pages: Record<string, Page> = {
   Overview: { component: OverviewPage, allowedRoles: ['admin'] },
   Items: { component: ItemsPage, allowedRoles: ['admin'] },
   Cashiers: { component: CashiersPage, allowedRoles: ['admin'] },
+  Events: { component: EventsPage, allowedRoles: ['admin'] },
   Users: { component: UsersPage, allowedRoles: ['admin'] },
   Login: { component: LoginPage, allowedRoles: ['guest'] },
   Logout: { component: LogoutPage, allowedRoles: ['user'] },

@@ -7,6 +7,11 @@ export default defineEventHandler(async (event) => {
   const user = await getCurrentUserFromEvent(event, { touch: true })
   if (!user) return { ok: false, error: 'Not authenticated' }
 
+  const eventId = Number(getQuery(event).eventId)
+  if (!eventId) {
+    return { ok: false, error: 'Missing eventId' }
+  }
+
   const rows = await query(`
     SELECT 
       p.id AS payment_id,
@@ -16,8 +21,9 @@ export default defineEventHandler(async (event) => {
     FROM fachschaft_payments p
     JOIN cashiers c ON p.cashier_id = c.id
     JOIN cashiers m ON p.member_id = m.id
+    WHERE event_id = ?
     ORDER BY p.created_at DESC, p.id DESC
-  `)
+  `, [eventId])
 
   const data = normalizeBigInt(rows)
 

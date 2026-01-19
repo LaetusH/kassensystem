@@ -7,6 +7,11 @@ export default defineEventHandler(async (event) => {
   const user = await getCurrentUserFromEvent(event, { touch: true })
   if (!user) return { ok: false, error: 'Not authenticated' }
 
+  const eventId = Number(getQuery(event).eventId)
+  if (!eventId) {
+    return { ok: false, error: 'Missing eventId' }
+  }
+
   const rows = await query(`
     SELECT 
       o.id AS order_id,
@@ -23,8 +28,9 @@ export default defineEventHandler(async (event) => {
     JOIN cashiers c ON o.cashier_id = c.id
     JOIN order_items oi ON o.id = oi.order_id
     JOIN items i ON oi.item_id = i.id
+    WHERE event_id = ?
     ORDER BY o.created_at DESC, o.id DESC
-  `)
+  `, [eventId])
 
   const data = normalizeBigInt(rows)
 

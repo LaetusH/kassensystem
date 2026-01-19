@@ -1,5 +1,9 @@
 <template>
   <Page headline1="Order History" @open-menu="$emit('openMenu')">
+    <template #header>
+      <MenuSelectEvent />
+    </template>
+
     <template #cards>
       <div v-if="loading" class="col-span-12 text-gray-500">Loading…</div>
 
@@ -84,6 +88,8 @@
 </template>
 
 <script setup lang="ts">
+const { selectedEvent } = useCheckout()
+
 const emit = defineEmits<{
   (e: 'openMenu'): void
 }>()
@@ -100,10 +106,16 @@ function formatDate(ts: string | Date) {
   return new Date(ts).toLocaleString('de-DE')
 }
 
-onMounted(async () => {
-  const res = await $fetch('/api/orders/history')
+async function loadHistory() {
+  const res = await $fetch(`/api/orders/history?eventId=${selectedEvent.value}`)
 
   if (res.ok) orders.value = 'orders' in res ? res.orders : []
   loading.value = false
+}
+
+onMounted(loadHistory)
+
+watch(selectedEvent, () => {
+  loadHistory()
 })
 </script>

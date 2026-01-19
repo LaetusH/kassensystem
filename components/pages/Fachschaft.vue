@@ -1,7 +1,10 @@
 <template>
   <Page headline1="Fachschaft Payments" @open-menu="$emit('openMenu')">
     <template #header>
-      <MenuSelectCashier />
+      <div class="flex flex-col md:flex-row md:gap-4">
+        <MenuSelectCashier />
+        <MenuSelectEvent />
+      </div>
     </template>
 
     <template #cards>
@@ -20,7 +23,7 @@
         </div>
         <button
           class="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700 cursor-pointer disabled:bg-gray-400"
-          :disabled="!selectedMember || !selectedCashier"
+          :disabled="!selectedMember || !selectedCashier || !selectedEvent"
           @click="showConfirm = true"
         >
           Mark Paid (10€)
@@ -73,7 +76,7 @@ const emit = defineEmits<{
   (e: 'openMenu'): void
 }>()
 
-const { selectedCashier } = useCheckout()
+const { selectedCashier, selectedEvent } = useCheckout()
 
 function formatDate(ts: string | Date) {
   return new Date(ts).toLocaleString('de-DE')
@@ -91,13 +94,14 @@ onMounted(async () => {
 async function markPaid() {
   showConfirm.value = false
 
-  if (!selectedCashier.value || !selectedMember.value) return
+  if (!selectedCashier.value || !selectedEvent || !selectedMember.value) return
 
   const res = await $fetch('/api/fachschaft/pay', {
     method: 'POST',
     body: {
       member_id: selectedMember.value,
       cashier_id: selectedCashier.value,
+      event_id: selectedEvent.value,
     }
   })
 
@@ -105,9 +109,13 @@ async function markPaid() {
 }
 
 async function loadPayments() {
-  const res2 = await $fetch('/api/fachschaft/payments')
+  const res2 = await $fetch(`/api/fachschaft/payments?eventId=${selectedEvent.value}`)
   if (res2.ok) {
     if ('payments' in res2) payments.value = res2.payments
   }
 }
+
+watch(selectedEvent, () => {
+  loadPayments()
+})
 </script>

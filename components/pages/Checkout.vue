@@ -1,7 +1,10 @@
 <template>
   <Page headline1="Checkout" @open-menu="$emit('openMenu')">
     <template #header>
-      <MenuSelectCashier />
+      <div class="flex flex-col md:flex-row md:gap-4">
+        <MenuSelectCashier />
+        <MenuSelectEvent />
+      </div>
     </template>
 
     <template #cards>
@@ -71,7 +74,7 @@
 
         <button
           class="mt-4 w-full bg-cyan-600 hover:bg-cyan-700 text-white cursor-pointer p-3 rounded-lg disabled:bg-gray-600"
-          :disabled="orderItems.length === 0 || !selectedCashier"
+          :disabled="orderItems.length === 0 || !selectedCashier || !selectedEvent"
           @click="showConfirm = true"
         >
           Save Order
@@ -100,7 +103,7 @@ const emit = defineEmits<{
   (e: 'openMenu'): void
 }>()
 
-const { selectedCashier, orderItems, isFachschaft } = useCheckout()
+const { selectedCashier, selectedEvent, orderItems, isFachschaft } = useCheckout()
 
 onMounted(async () => {
   const res = await $fetch('/api/items', { method: 'GET' })
@@ -139,6 +142,7 @@ async function finishOrder() {
     method: 'POST',
     body: {
       cashier_id: selectedCashier.value,
+      event_id: selectedEvent.value,
       items: orderItems.value,
       is_fachschaft: isFachschaft.value
     }

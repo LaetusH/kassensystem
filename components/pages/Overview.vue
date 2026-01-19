@@ -3,6 +3,10 @@
       Loading…
     </div>
   <Page v-else headline1="Overview" @open-menu="$emit('openMenu')">
+    <template #header>
+      <MenuSelectEvent />
+    </template>
+
     <template #cards>
     <div class="col-span-12 bg-white p-4 rounded-xl shadow-lg">
       <h2 class="text-xl font-semibold mb-4">Regular Sales</h2>
@@ -84,13 +88,20 @@
 </template>
 
 <script setup lang="ts">
+const { selectedEvent } = useCheckout()
+
 const data = ref<any | null>(null)
 const loading = ref(true)
 
-onMounted(async () => {
-  const res = await $fetch('/api/overview', { method: 'GET' })
+async function loadOverview() {
+  const res = await $fetch(`/api/overview?eventId=${selectedEvent.value}`, { method: 'GET' })
   if (res.ok) data.value = res
-  console.log(res)
   loading.value = false
+}
+
+watch(selectedEvent, () => {
+  loadOverview()
 })
+
+onMounted(loadOverview)
 </script>

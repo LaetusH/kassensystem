@@ -7,6 +7,11 @@ export default defineEventHandler(async (event) => {
   const user = await getCurrentUserFromEvent(event, { touch: true })
   if (!user) return { ok: false, error: 'Not authenticated' }
 
+  const eventId = Number(getQuery(event).eventId)
+  if (!eventId) {
+    return { ok: false, error: 'Missing eventId' }
+  }
+
   const regularRows = normalizeBigInt(await query(`
     SELECT
       i.id,
@@ -17,9 +22,10 @@ export default defineEventHandler(async (event) => {
     JOIN order_items oi ON o.id = oi.order_id
     JOIN items i ON oi.item_id = i.id
     WHERE o.fachschaft = 0
+      AND event_id = ?
     GROUP BY i.id
     ORDER BY i.name ASC
-  `))
+  `, [eventId]))
     
   const regularItems = normalizeBigInt(regularRows)
 
@@ -37,16 +43,18 @@ export default defineEventHandler(async (event) => {
     JOIN order_items oi ON o.id = oi.order_id
     JOIN items i ON oi.item_id = i.id
     WHERE o.fachschaft = 1
+      AND event_id = ?
     GROUP BY i.id
     ORDER BY i.name ASC
-  `))
+  `, [eventId]))
 
   const fachschaftItems = normalizeBigInt(fachschaftRows)
 
   const paymentRows = await query(`
     SELECT COUNT(*) AS count
     FROM fachschaft_payments
-  `)
+    WHERE event_id = ?
+  `, [eventId])
 
   const paymentCount = Number(paymentRows[0]?.count ?? 0)
   const paymentRevenue = paymentCount * 10
@@ -60,7 +68,8 @@ export default defineEventHandler(async (event) => {
     JOIN items i ON oi.item_id = i.id
     WHERE o.fachschaft = 0
       AND o.created_at >= NOW() - INTERVAL 1 HOUR
-  `))
+      AND event_id = ?
+  `, [eventId]))
 
   const prevHourRows = normalizeBigInt(await query(`
     SELECT
@@ -72,7 +81,8 @@ export default defineEventHandler(async (event) => {
     WHERE o.fachschaft = 0
       AND o.created_at BETWEEN
         NOW() - INTERVAL 2 HOUR AND NOW() - INTERVAL 1 HOUR
-  `))
+      AND event_id = ?
+  `, [eventId]))
 
   const lastHourRevenue = Number(lastHourRows[0]?.revenue ?? 0)
   const lastHourQuantity = Number(lastHourRows[0]?.quantity ?? 0)

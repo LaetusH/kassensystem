@@ -1,19 +1,30 @@
 <template>
-	<div class="flex gap-3">
-		<button
-			@click="exportCSV"
-			class="bg-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md cursor-pointer"
-		>
-			Export CSV
-		</button>
+  <Page headline1="Settings" @open-menu="$emit('openMenu')">
+    <template #cards>
+      <div class="flex gap-3 col-span-12">
+        <button
+          @click="exportCSV"
+          class="bg-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md cursor-pointer"
+        >
+          Export CSV
+        </button>
 
-		<button
-			@click="showForm = true"
-			class="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-2 rounded-md cursor-pointer"
-		>
-			Logout
-		</button>
-	</div>
+        <button
+          @click="addEvents"
+          class="bg-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded-md cursor-pointer"
+        >
+          Change DB schema to support Events
+        </button>
+
+        <button
+          @click="showForm = true"
+          class="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-2 rounded-md cursor-pointer"
+        >
+          Logout
+        </button>
+      </div>
+    </template>
+  </Page>
 
   <FormConfirmation v-if="showForm" headline="Logout" @cancel="showForm = false" @confirm="confirm">
     <template #message>
@@ -23,7 +34,11 @@
 </template>
 <script setup lang="ts">
 const { setPage } = usePage()
-const { user, logout, fetchSession } = useAuth()
+const { logout } = useAuth()
+
+const emit = defineEmits<{
+  (e: 'openMenu'): void
+}>()
 
 const showForm = ref(false)
 
@@ -47,13 +62,9 @@ async function exportCSV() {
 
   window.URL.revokeObjectURL(url)
 }
-  
-async function cancel() {
-  await fetchSession()
-  if (!user.value) { 
-    setPage('Login')
-  } else {
-    setPage('Checkout')
-  }
+
+async function addEvents() {
+  const res = await $fetch('/api/changeSchema/addEvents')
+  console.log(res)
 }
 </script>
